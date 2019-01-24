@@ -1,0 +1,26 @@
+---
+title: "Send on Behalf: Calendar Sharing Regression"
+ms.author: kchandra
+author: kchandra
+manager: serdars
+ms.date:
+ms.audience: Developer
+ms.topic: article
+ms.prod: exchange-server-it-pro
+localization_priority: Normal
+ms.collection:
+- Hybrid
+- Ent_O365_Hybrid
+ms.assetid: 58b46b2c-a6b2-424a-8fc2-0f1fe1ad8e18
+description: "Learn about the Exchange permissions that are supported in hybrid environments"
+---
+The Send-on-behalf feature implementation modified the “msExchRecipientDisplayType” property in order to have users in cross-premises to be selected as a delegate. Changes were also made to the ad driver and OAB processes to return an ACLable version of the msExchRecipientDisplayType for Mailusers. Outlook clients and OAB utilize this property to display the appropriate icon, and enable functionality that allows the user to select the recipient in the Delegate picker windows.
+
+For hybrid tenants that have this feature, they can now create new relationships between users(delegate and manager) independent of the mailbox location. Large enterprise onboarding to Office 365 is also accelerated by the release of this feature. 
+
+However, this feature caused a regression in the current calendar sharing experience for non-Desktop outlook clients such as OWA, Mobile and outlook for, MAC . This is because Calendar also uses the “msExchRecipientDisplayType" in determining whether the user was cross-premise or in the same forest within the Hybrid tenant. This resulted in the below three scenarios:
+1.	Cross-tenant sharing was broken
+2.	Cross-premise sharing was broken (couldn’t accept from modern clients)
+3.	Cross-premise sync was broken in all non-Desktop clients (Web, Mobile and outlook for Mac ) that previously worked
+
+Microsoft is looking into this issue and is working on a fix. Work is in progress to fix cross-tenant sharing by having all cross-tenant sharing to be external sharing. 
